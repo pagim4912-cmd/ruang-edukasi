@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Ruang Edukasi</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial, Helvetica, sans-serif;
+}
+
+:root{
+  --bg:#f7f8fa;
+  --card:#ffffff;
+  --text:#17181a;
+  --muted:#70757d;
+  --border:#e6e8eb;
+  --accent:#2563eb;
+}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  transition:.25s;
+}
+
+/* DARK MODE */
+
+body.dark{
+  --bg:#101114;
+  --card:#181a1f;
+  --text:#f2f3f5;
+  --muted:#9da2aa;
+  --border:#292c32;
+}
+
+/* HEADER */
+
+header{
+  height:70px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 22px;
+  border-bottom:1px solid var(--border);
+  background:var(--card);
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+
+.logo{
+  font-size:20px;
+  font-weight:700;
+  letter-spacing:-.5px;
+}
+
+.menu-btn{
+  width:42px;
+  height:42px;
+  border:0;
+  border-radius:12px;
+  background:transparent;
+  color:var(--text);
+  font-size:24px;
+  cursor:pointer;
+}
+
+.menu-btn:hover{
+  background:var(--border);
+}
+
+/* SIDEBAR */
+
+.sidebar{
+  position:fixed;
+  top:0;
+  left:-270px;
+  width:260px;
+  height:100vh;
+  background:var(--card);
+  border-right:1px solid var(--border);
+  z-index:30;
+  padding:25px 18px;
+  transition:.25s;
+}
+
+.sidebar.open{
+  left:0;
+}
+
+.sidebar-title{
+  font-size:20px;
+  font-weight:700;
+  margin:8px 10px 30px;
+}
+
+.side-btn{
+  width:100%;
+  border:0;
+  background:transparent;
+  color:var(--text);
+  text-align:left;
+  padding:14px 12px;
+  margin-bottom:5px;
+  border-radius:10px;
+  cursor:pointer;
+  font-size:15px;
+}
+
+.side-btn:hover{
+  background:var(--border);
+}
+
+.overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.35);
+  z-index:20;
+  display:none;
+}
+
+.overlay.show{
+  display:block;
+}
+
+/* MAIN */
+
+main{
+  max-width:900px;
+  margin:auto;
+  padding:55px 20px 80px;
+}
+
+/* HOME */
+
+.hero{
+  margin-bottom:45px;
+}
+
+.hero h1{
+  font-size:42px;
+  line-height:1.1;
+  letter-spacing:-1.5px;
+  margin-bottom:14px;
+}
+
+.hero p{
+  color:var(--muted);
+  font-size:16px;
+  line-height:1.7;
+  max-width:600px;
+}
+
+/* SEARCH */
+
+.search-box{
+  margin-bottom:35px;
+}
+
+.search-box input{
+  width:100%;
+  padding:16px 18px;
+  border:1px solid var(--border);
+  border-radius:13px;
+  outline:none;
+  background:var(--card);
+  color:var(--text);
+  font-size:15px;
+}
+
+.search-box input:focus{
+  border-color:var(--accent);
+}
+
+/* SECTION */
+
+.section-title{
+  font-size:22px;
+  margin-bottom:18px;
+}
+
+/* ARTICLES */
+
+.articles{
+  display:grid;
+  gap:14px;
+}
+
+.article{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:15px;
+  padding:22px;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.article:hover{
+  transform:translateY(-2px);
+  border-color:#cbd0d6;
+}
+
+.article-tag{
+  display:inline-block;
+  color:var(--accent);
+  font-size:12px;
+  font-weight:bold;
+  margin-bottom:10px;
+  text-transform:uppercase;
+}
+
+.article h3{
+  font-size:19px;
+  margin-bottom:8px;
+}
+
+.article p{
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.6;
+}
+
+/* ARTICLE PAGE */
+
+.article-page{
+  display:none;
+}
+
+.article-page h1{
+  font-size:36px;
+  line-height:1.2;
+  margin-bottom:12px;
+}
+
+.article-page .tag{
+  color:var(--accent);
+  font-size:13px;
+  font-weight:bold;
+  margin-bottom:15px;
+  display:block;
+}
+
+.article-content{
+  margin-top:28px;
+  color:var(--text);
+  line-height:1.8;
+  font-size:16px;
+}
+
+.article-content p{
+  margin-bottom:18px;
+}
+
+.back{
+  border:0;
+  background:transparent;
+  color:var(--accent);
+  cursor:pointer;
+  font-size:14px;
+  margin-bottom:25px;
+}
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+  header{
+    height:62px;
+    padding:0 15px;
+  }
+
+  main{
+    padding:40px 16px 70px;
+  }
+
+  .hero h1{
+    font-size:34px;
+  }
+
+  .article-page h1{
+    font-size:30px;
+  }
+
+  .sidebar{
+    width:250px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar" id="sidebar">
+
+  <div class="sidebar-title">
+    Ruang Edukasi
+  </div>
+
+  <button class="side-btn" onclick="toggleDarkMode()">
+    🌙 &nbsp; Mode gelap
+  </button>
+
+  <button class="side-btn" onclick="showHome()">
+    🏠 &nbsp; Home
+  </button>
+
+  <button class="side-btn" onclick="showAllArticles()">
+    📚 &nbsp; Semua artikel
+  </button>
+
+</aside>
+
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+
+<!-- HEADER -->
+
+<header>
+
+  <button class="menu-btn" onclick="openSidebar()">
+    ☰
+  </button>
+
+  <div class="logo">
+    Ruang Edukasi
+  </div>
+
+  <div style="width:42px;"></div>
+
+</header>
+
+
+<!-- MAIN -->
+
+<main>
+
+  <!-- HOME -->
+
+  <section id="homePage">
+
+    <div class="hero">
+
+      <h1>
+        Belajar lebih<br>
+        sederhana.
+      </h1>
+
+      <p>
+        Jelajahi berbagai artikel edukasi
+        untuk menambah wawasan dan memahami
+        berbagai hal di sekitar kita.
+      </p>
+
+    </div>
+
+
+    <!-- SEARCH -->
+
+    <div class="search-box">
+
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Cari artikel..."
+        oninput="searchArticles()"
+      >
+
+    </div>
+
+
+    <h2 class="section-title">
+      Artikel terbaru
+    </h2>
+
+    <div class="articles" id="articleList">
+
+      <!-- ARTIKEL 1 -->
+
+      <article class="article"
+        data-title="Apa itu stereotip?"
+        data-category="Stereotip"
+        onclick="openArticle(0)">
+
+        <span class="article-tag">
+          Stereotip
+        </span>
+
+        <h3>
+          Apa itu stereotip?
+        </h3>
+
+        <p>
+          Memahami stereotip dalam kehidupan sosial
+          dan bagaimana pengaruhnya terhadap cara
+          kita melihat orang lain.
+        </p>
+
+      </article>
+
+
+      <!-- ARTIKEL 2 -->
+
+      <article class="article"
+        data-title="Pergaulan bebas"
+        data-category="Sosial"
+        onclick="openArticle(1)">
+
+        <span class="article-tag">
+          Sosial
+        </span>
+
+        <h3>
+          Memahami pergaulan bebas
+        </h3>
+
+        <p>
+          Mengenal pengertian, faktor penyebab,
+          dan dampak pergaulan bebas dalam kehidupan
+          remaja.
+        </p>
+
+      </article>
+
+
+      <!-- ARTIKEL 3 -->
+
+      <article class="article"
+        data-title="Cyberbullying"
+        data-category="Teknologi"
+        onclick="openArticle(2)">
+
+        <span class="article-tag">
+          Teknologi
+        </span>
+
+        <h3>
+          Mengenal cyberbullying
+        </h3>
+
+        <p>
+          Memahami bentuk-bentuk cyberbullying
+          dan bagaimana pengaruhnya dalam kehidupan
+          sosial.
+        </p>
+
+      </article>
+
+    </div>
+
+  </section>
+
+
+  <!-- ARTICLE PAGE -->
+
+  <section class="article-page" id="articlePage">
+
+    <button class="back" onclick="showHome()">
+      ← Kembali
+    </button>
+
+    <span class="tag" id="articleCategory"></span>
+
+    <h1 id="articleTitle"></h1>
+
+    <div class="article-content" id="articleContent"></div>
+
+  </section>
+
+</main>
+
+
+<script>
+
+/* ===============================
+   DATA ARTIKEL
+================================ */
+
+const articles = [
+
+  {
+    title:"Apa itu stereotip?",
+    category:"Stereotip",
+    content:`
+      <p>
+        Stereotip adalah anggapan atau gambaran umum
+        yang diberikan kepada seseorang atau kelompok
+        berdasarkan karakteristik tertentu.
+      </p>
+
+      <p>
+        Stereotip dapat terbentuk dari lingkungan,
+        budaya, media, pengalaman, maupun informasi
+        yang diterima seseorang.
+      </p>
+
+      <p>
+        Tidak semua stereotip sesuai dengan kenyataan.
+        Karena itu, penting untuk melihat seseorang
+        sebagai individu dan tidak langsung menilainya
+        berdasarkan anggapan terhadap kelompoknya.
+      </p>
+    `
+  },
+
+  {
+    title:"Memahami pergaulan bebas",
+    category:"Sosial",
+    content:`
+      <p>
+        Pergaulan merupakan bagian dari kehidupan sosial.
+        Melalui pergaulan, seseorang dapat belajar
+        berkomunikasi dan membangun hubungan dengan orang lain.
+      </p>
+
+      <p>
+        Namun, pergaulan yang tidak sehat dapat membawa
+        seseorang pada berbagai perilaku yang berisiko
+        dan bertentangan dengan nilai sosial.
+      </p>
+
+      <p>
+        Lingkungan, teman sebaya, kurangnya pengawasan,
+        dan kemampuan mengambil keputusan dapat menjadi
+        beberapa faktor yang memengaruhi perilaku seseorang.
+      </p>
+    `
+  },
+
+  {
+    title:"Mengenal cyberbullying",
+    category:"Teknologi",
+    content:`
+      <p>
+        Cyberbullying adalah tindakan menyakiti,
+        mempermalukan, mengintimidasi, atau mengganggu
+        seseorang melalui teknologi digital.
+      </p>
+
+      <p>
+        Tindakan tersebut dapat terjadi melalui media sosial,
+        pesan pribadi, forum, maupun platform digital lainnya.
+      </p>
+
+      <p>
+        Menggunakan internet secara bijak berarti memahami
+        bahwa komunikasi digital juga memiliki dampak
+        terhadap orang lain.
+      </p>
+    `
+  }
+
+];
+
+
+/* ===============================
+   SIDEBAR
+================================ */
+
+function openSidebar(){
+
+  document
+    .getElementById("sidebar")
+    .classList.add("open");
+
+  document
+    .getElementById("overlay")
+    .classList.add("show");
+
+}
+
+
+function closeSidebar(){
+
+  document
+    .getElementById("sidebar")
+    .classList.remove("open");
+
+  document
+    .getElementById("overlay")
+    .classList.remove("show");
+
+}
+
+
+/* ===============================
+   DARK MODE
+================================ */
+
+function toggleDarkMode(){
+
+  document.body.classList.toggle("dark");
+
+  localStorage.setItem(
+    "darkMode",
+    document.body.classList.contains("dark")
+  );
+
+}
+
+
+/* Simpan mode gelap */
+
+if(localStorage.getItem("darkMode") === "true"){
+  document.body.classList.add("dark");
+}
+
+
+/* ===============================
+   HOME
+================================ */
+
+function showHome(){
+
+  document
+    .getElementById("homePage")
+    .style.display = "block";
+
+  document
+    .getElementById("articlePage")
+    .style.display = "none";
+
+  closeSidebar();
+
+  window.scrollTo(0,0);
+
+}
+
+
+/* ===============================
+   SEMUA ARTIKEL
+================================ */
+
+function showAllArticles(){
+
+  showHome();
+
+  document
+    .getElementById("searchInput")
+    .value = "";
+
+  document
+    .querySelectorAll(".article")
+    .forEach(article => {
+
+      article.style.display = "block";
+
+    });
+
+}
+
+
+/* ===============================
+   CARI ARTIKEL
+================================ */
+
+function searchArticles(){
+
+  const keyword =
+    document
+      .getElementById("searchInput")
+      .value
+      .toLowerCase();
+
+  document
+    .querySelectorAll(".article")
+    .forEach(article => {
+
+      const title =
+        article.dataset.title.toLowerCase();
+
+      const category =
+        article.dataset.category.toLowerCase();
+
+      if(
+        title.includes(keyword) ||
+        category.includes(keyword)
+      ){
+
+        article.style.display = "block";
+
+      }else{
+
+        article.style.display = "none";
+
+      }
+
+    });
+
+}
+
+
+/* ===============================
+   BUKA ARTIKEL
+================================ */
+
+function openArticle(index){
+
+  const article = articles[index];
+
+  document
+    .getElementById("articleTitle")
+    .textContent = article.title;
+
+  document
+    .getElementById("articleCategory")
+    .textContent = article.category;
+
+  document
+    .getElementById("articleContent")
+    .innerHTML = article.content;
+
+  document
+    .getElementById("homePage")
+    .style.display = "none";
+
+  document
+    .getElementById("articlePage")
+    .style.display = "block";
+
+  window.scrollTo(0,0);
+
+}
+
+</script>
+
+</body>
+</html>
